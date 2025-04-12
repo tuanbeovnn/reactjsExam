@@ -1,0 +1,840 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>React</title>
+
+  <meta name="description" content="React introduction">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/moon.css" id="theme">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+  <style>
+    #iframe{
+      max-width: 100%;
+      -webkit-transform: scale(0.75);
+      -moz-transform: scale(0.75);
+      -ms-zoom: 0.75;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+      <section>
+        <section style="font-size: 90%;">
+          <h1>React</h1>
+          <ol>
+            <li>React introduction</li>
+            <li>Elements and components<ul>
+              <li>JSX</li>
+              <li>Props</li>
+              <li>State</li>
+              <li>Lifecycle methods</li>
+            </ul></li>
+            <li>Events</li>
+            <li>Hooks</li>
+            <li>Ajax</li>
+            <li>Context</li>
+            <li>React native</li>
+          </ol>
+        </section>
+      </section>
+      <section>
+        <h3>Advanced Web Development:  Front End</h3>
+        <h4>COMP.CS.520, Spring 2025</h4>
+        <h4>Topic: React</h4>
+        <p>Timo Nummenmaa</p>
+        <p>Mikko Nurminen, Prosper Evergreen</p>
+      </section>
+
+     
+      <section>
+        <section>
+          <h2>React</h2>
+          <ul>
+            <li>A JavaScript library for building user interfaces, by
+              <ul>
+                <li>Facebook</li>
+                <li>Instagram, and </li>
+                <li><a href="https://reactjs.org">React community</a></li>
+              </ul>
+            </li>
+            <li>The most popular front-end solution in 
+              <ul>
+                <li>
+                  <a href="https://survey.stackoverflow.co/2023/#most-popular-technologies-webframe">Stack overflow 2023 developer survey</a>
+                </li>
+              </ul>
+            </li>
+            <li>Declarative, Component-Based
+            </li>
+
+          </ul>
+        </section>
+
+       <!-- <section data-state="make-it-pop">
+            <iframe frameborder="0" id="iframe" width="1024" height="768" data-src="barchartrace.html" data-preload ></iframe>
+        </section> -->
+
+        <!-- Example of nested vertical slides -->
+        <section style="font-size: 90%;">
+          <h2>React in this course</h2>
+          <ul>
+            <li>We will not learn how to create pretty React applications</li>
+<!--            <li>Check out <a href="https://www.tuni.fi/studentsguide/curriculum/course-units/uta-ykoodi-27110?year=2022">COMP.CS.210 Creating Graphical User Interfaces, 5–10 ects</a> for this</li>-->
+            <!--<li>We will continue our focus on state management <ul><li>this is not covered in the same way in COMP.CS.210</li></ul></li>-->
+            <li>Our primary goal is to create applications that <b>manage</b> state and communicate with a server</li>
+            <li>NOTE: There is an old and new version of the official React documentation.<ul><li>We link often to the old one, but feel free to use either or both.</li></ul></li></li>  
+          </li>
+
+          </ul>
+        </section>
+        <section>
+          <h2>Installation</h2>
+          <div style="text-align: left;">
+            <p>The simplest way is to add your React code to an existing app / page</p>
+            <p>Just create a page that is available from your static files</p>
+            <p>React tutorials:</p>
+            <ul style="font-size: 60%;">
+              <li><a href="https://medium.com/@to_pe/how-to-add-react-to-a-simple-html-file-a11511c0235f">How to add
+                React? </a>(Note that also the Babel compiler is needed for JSX and the example uses an old version of React)</li>
+            <!--<li><a
+                  href="https://raw.githubusercontent.com/reactjs/reactjs.org/master/static/html/single-file-example.html">Single
+                  file example</a></li>-->
+              <li><a href="https://reactjs.org/docs/getting-started.html#try-reactl">Try React</a>
+              </li>
+              <li>Use CDN: <a href="https://reactjs.org/docs/cdn-links.html">https://reactjs.org/docs/cdn-links.html</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <section>
+
+          <h2>Installation</h2>
+          <ul>
+            <li><a href="https://legacy.reactjs.org/docs/create-a-new-react-app.html">Using Create React App</a></li>
+            <li>Comfortable environment for learning </li>
+            <li>Legacy way to start building a new single-page application</li>
+            <li>Now it is suggested to use a framework e.g. Next.js</li>
+          </ul>
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+          npx create-react-app my-app
+          cd my-app
+          npm start
+        </code></pre>
+        </section>
+
+        <section>
+
+          <h2>Options include</h2>
+          <ul style="font-size: 60%;">
+          <li><a href="https://nextjs.org/">Next.js</a> for static and server-rendered applications using Node.</li>
+          <li><a href="https://www.gatsbyjs.org/">Gatsby</a> for static websites. </li>
+        </ul>
+        </section>
+
+
+        <section>
+
+          <h2>React Developer Tools</h2>
+          <a href="https://react.dev/learn/react-developer-tools">Inspect the React component hierarchies in with Developer Tools (new link).</a>
+          <ul style="font-size: 60%;">
+            <li>Chrome DevTools extension for the open-source React JavaScript library</li>
+            <li>Allows the inspection of React component hierarchies</li>
+
+
+          <li>
+            You will get two new tabs in your Chrome DevTools: "⚛️ Components" and "⚛️ Profiler".
+            The Components tab shows you the root React components that were rendered on the page, 
+            as well as the subcomponents that they ended up rendering.
+            
+            <a href="https://chrome.google.com/webstore/detail/react-developer-tools/fmkadmapgofadopljbjfkapdkoienihi?hl=en">On the chrome store</a>
+          </li>
+        </ul>
+          
+        </section>
+        <section>
+
+          <h2><!--<a href="https://reactjs.org/redirect-to-codepen/hello-world">-->Hello World<!--</a>--></h2>
+
+          <pre data-id="code-animation"><code class="js" data-trim data-line-numbers>
+            const root = ReactDOM.createRoot(document.getElementById('root'));
+            root.render(<h1>Hello, world!</h1>);
+            </code></pre>
+
+          Check the documentation and quick start:
+          <ul>
+            <li>Guide here <a
+                href="https://reactjs.org/docs/hello-world.html">https://reactjs.org/docs/hello-world.html</a> </li>
+            <li>Tutorial here <a
+                href="https://reactjs.org/tutorial/tutorial.html">https://reactjs.org/tutorial/tutorial.html</a></li>
+          </ul>
+          Completing the tutorial is the best way to learn!
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2 class="r-fit-text">
+            Elements and components</h2>
+        </section>
+        <section>
+
+
+          <h2>JSX</h2>
+          <ul>
+            <li>A recommended syntax extension to JavaScript</li>
+            <li>Describes how the UI should look like</li>
+            <li>Produces React "elements" where markup and logic are not separated in different files</li>
+            <ul><li>Instead, React separates concerns with loosely coupled units called “components” that contain both</li></ul>
+          </ul>
+        </section>
+        <section>
+          <h2>JSX Pros</h2>
+
+          <div style="font-size: 80%;text-align: left;">Even if React does not require using JSX,
+            but most people find it helpful as a visual aid when working with UI.
+            It also allows React to show more useful error and warning messages.
+          </div>
+          <a href="https://reactjs.org/docs/introducing-jsx.html">https://reactjs.org/docs/introducing-jsx.html</a>
+
+          <pre data-id="code-animation"><code class="language-javascript" data-trim data-line-numbers>
+          const element = 
+          ( &lt;h1 className="greeting"&gt; Hello, world! &lt;/h1&gt; );
+             </code></pre>
+        </section>
+        <section>
+
+          <h2>JSX</h2>
+          <ul>
+            <li>Embed expressions with curly braces</li>
+            <li>Use quotes to specify string literals as attributes</li>
+            <li>Empty tags may be closed XML style with /&gt;</li>
+            <li>JSX tags may contain children</li>
+            <li>JSX escapes embedded values</li>
+          </ul>
+          <p>JSX is compiled to React.createElement() calls. This results in objects (these are equivalent):</p>
+          <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+            const element = (<h1 className="greeting">Hello, world!</h1>);
+            const element = React.createElement('h1',{className: 'greeting'}, 'Hello, world!');
+          </code></pre>
+          <a href="https://reactjs.org/docs/introducing-jsx.html">https://reactjs.org/docs/introducing-jsx.html</a>
+
+        </section>
+        <section>
+
+          <h2>Elements and rendering</h2>
+          Smallest building block in React, e.g.:
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+            const element = <h1>Hello, world</h1>;
+            </code>  
+          </pre>
+          To render this, you need a &lt;div&gt; in your HTML file
+            <pre data-id="code-animation"><code class="hljs" data-trim>
+              <div id="root"></div>
+            </code></pre>
+            You can then render like this
+            <pre data-id="code-animation"><code class="js" data-trim>
+              const root = ReactDOM.createRoot(
+                document.getElementById('root')
+              );
+              root.render(element);
+            </code></pre>
+        </section>
+        <section>
+          <h2><a href="https://reactjs.org/docs/rendering-elements.html">Updates when necessary</a></h2>
+          <ul>
+            <li>React DOM compares the element and its children to the previous one</li>
+            <li>Only applies the DOM updates necessary to bring the DOM to the desired state</li>
+            <li>root.render() is usually called only once</li>
+          </ul>
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/components-and-props.html">Components</a></h2>
+          <ul style="font-size: 70%;">
+            <li>UI splits: independent, reusable pieces, and think about each piece in isolation
+            </li>
+            <li>Like JavaScript functions, but can be also classes<ul>
+                <li>classes have some additional features compared to functions</li>
+                <li>Hooks have been later implemented to enable better use of functions</li>
+              </ul>
+            </li>
+            <li>Accept arbitrary inputs, called "props"</li>
+            <li>Return React elements describing what should appear on the screen</li>            
+            <li>"props" are passed as an argument to function components (more on these later)</li>
+            <li>
+              Components always start with capital letters
+            </li>
+            <li>
+              Components can refer to other components in their output
+            </li>
+            <li>
+              In React, buttons, forms, dialogs, etc. are commonly expressed as components.
+            </li>
+          </ul>
+        </section>
+        <section>
+          <h2><a href="https://reactjs.org/docs/components-and-props.html">Rendering components</a></h2>
+          You start by composing the components, e.g.
+          <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+            function Welcome(props) {&#10;              return &lt;h1&gt;Hello, {props.name}&lt;/h1&gt;;&#10;            }&#10;            &#10;            function App() {&#10;              return (&#10;                &lt;div&gt;&#10;                  &lt;Welcome name=&quot;Sara&quot; /&gt;&#10;                  &lt;Welcome name=&quot;Cahal&quot; /&gt;&#10;                  &lt;Welcome name=&quot;Edite&quot; /&gt;&#10;                &lt;/div&gt;&#10;              );&#10;            }
+          </code></pre>
+
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/components-and-props.html">Props</a></h2>
+          <ul>
+            <li>Are the input that components take in</li>
+            <li>Are used in function and class components</li>
+            <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+              class Welcome extends React.Component {
+                render() {
+                  return <h1>Hello, {this.props.name}</h1>;
+                }
+              }
+            </code></pre>
+            <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+              const element = &lt;Welcome name=&quot;Sara&quot; /&gt;;
+            </code></pre>
+            <li>Are read-only</li>
+            <ul><li>You are not allowed to change the values of inputs in components
+              <ul><li>This will result in e.g. passing functions as props</li></ul></li></ul>
+          </ul>
+
+        </section>
+        <section>
+
+          <h2><a
+            href="https://reactjs.org/docs/state-and-lifecycle.html">State</a></h2>
+          <ul style="font-size: 80%;">
+            <li>State is similar to props, but it is private and fully controlled by the component.</li>
+            <li>Updated using setState (when creating Class based components!)<ul><li>merges changes</li></ul></li>
+            <li>Not to be modified directly</li>
+            <li>Use:
+              <pre data-id="code-animation"><code class="hljs" data-trim>
+              this.setState({comment: 'Hello'});</code></pre>
+            </li>
+            <li>Updates may be asynchronous and may be combined</li>
+            <li>Don’t rely on existing state values when setting new states</li>
+            <li>Pass a function to setState instead:</li> 
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+              this.setState((state, props) => 
+              ({ counter: state.counter + props.increment }));
+            </code></pre>
+          </ul>
+        
+        </section>
+        <section>
+          <h2><a href="https://reactjs.org/docs/state-and-lifecycle.html">Constructor</a></h2>
+          <div style="display: flex;">
+            <div>
+              Assigns the initial state
+              this.state
+
+            <pre data-id="code-animation" style="font-size: 40%;"><code class="js" data-trim data-line-numbers>
+              constructor(props) {
+                super(props);
+                this.state = 
+                {date: new Date()};
+              }
+            </code></pre>
+            </div>
+            <div>
+              <h4>State example</h4>
+              <pre data-id="code-animation" style="font-size: 40%;"><code class="hljs" data-trim data-line-numbers>
+                class Clock extends React.Component {&#10;                  constructor(props) {&#10;                    super(props);&#10;                    this.state = {date: new Date()};&#10;                  }&#10;                  render() {&#10;                    return (&#10;                      &lt;div&gt;&#10;                        &lt;h1&gt;Hello, world!&lt;/h1&gt;&#10;                        &lt;h2&gt;It is {this.state.date.toLocaleTimeString()}.&lt;/h2&gt;&#10;                      &lt;/div&gt;&#10;                    );&#10;                  }&#10;                }&#10;                const root = ReactDOM.createRoot(document.getElementById(&apos;root&apos;));&#10;                root.render(&lt;Clock /&gt;);
+          </code></pre>
+            </div>
+          </div>
+          
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/state-and-lifecycle.html">Lifecycle methods</a></h2>
+          <ul>
+            <li>The <b>componentDidMount()</b>method runs after the component output has been rendered to the DOM</li>
+            <li><b>componentWillUnmount()</b> is called when a component is removed from the DOM</li>
+            <li><b>componentDidUpdate()</b> is invoked immediately after updating occurs, not for the initial render</li>
+          </ul>
+
+
+
+          <div style="display: flex;font-size: 80%;">
+            <div style="width: 35%;font-size: 80%;">
+              <pre data-id="code-animation"><code class="hljs" data-trim>
+componentDidMount() {
+  this.timerID = setInterval( 
+  () => this.tick(), 
+  1000 );
+}
+             </code></pre>
+            </div>
+            <div style="width: 25%;font-size: 80%;">
+              <pre data-id="code-animation2"><code class="hljs" data-trim>
+tick() {
+  this.setState({
+  date: new Date()
+  });
+}
+            </code></pre>
+            </div>
+            <div style="width: 40%;font-size: 80%;">
+              <pre data-id="code-animation3"><code class="js" data-trim>
+componentWillUnmount() {
+  clearInterval(this.timerID);
+} 
+            </code></pre>
+            </div>
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/state-and-lifecycle.html#the-data-flows-down">Data flow</a></h2>
+          <ul>
+            <li>Data flows down</li>
+            <li>Pass data as props to child components</li>
+            <li>Parent components do not see the state of a child</li>
+            <li>Child components do not know details about the prop data. <ul><li>e.g. if it came from the parent's state or props etc.</li></ul></li>
+          </ul>
+
+          <!--<a href="https://codepen.io/gaearon/pen/vXdGmd?editors=0010">Example</a>-->
+        </section>
+        </section>
+        <section>
+        <section>
+
+          <h2>Events</h2>
+          <ul>
+            <li>Similar to DOM element events</li>
+            <li>Named using camelCase</li>
+            <li>No need to use addEventListner to DOM elements</li>
+            <li>A common pattern is for an event handler to be a method on the class</li>
+            <li>A function is passed as the event handler</li>
+          </ul>
+          <a href="https://reactjs.org/docs/handling-events.html">Handling Events</a>
+        </section>
+        <section>
+
+          <h2>Event example</h2>
+          <code>this</code> will be undefined when a callback is actually called, if not bound
+          <pre data-id="code-animation"><code class="js" data-trim data-line-numbers>
+            class Toggle extends React.Component {&#10;              constructor(props) {&#10;                super(props);&#10;                this.state = {isToggleOn: true};&#10;            &#10;                // This binding is necessary to make `this` work in the callback&#10;                this.handleClick = this.handleClick.bind(this);&#10;              }&#10;            &#10;              handleClick() {&#10;                this.setState(prevState =&gt; ({&#10;                  isToggleOn: !prevState.isToggleOn&#10;                }));&#10;              }&#10;            &#10;              render() {&#10;                return (&#10;                  &lt;button onClick={this.handleClick}&gt;&#10;                    {this.state.isToggleOn ? &apos;ON&apos; : &apos;OFF&apos;}&#10;                  &lt;/button&gt;&#10;                );&#10;              }&#10;            }
+          </code></pre>
+
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/handling-events.html#passing-arguments-to-event-handlers">Event handler arguments</a></h2>
+          <ul>
+            <li>e is the event (used to prevent default action here)</li>
+            <pre data-id="code-animation" style="font-size: 40%;"><code class="hljs" data-trim data-line-numbers>
+              function Form() {&#10;                function handleSubmit(e) {&#10;                  e.preventDefault();&#10;                  console.log(&apos;You clicked submit.&apos;);&#10;                }&#10;                return (&#10;                  &lt;form onSubmit={handleSubmit}&gt;&#10;                    &lt;button type=&quot;submit&quot;&gt;Submit&lt;/button&gt;&#10;                  &lt;/form&gt;&#10;                );&#10;              }
+            </code></pre>
+
+            <li>Arguments are passed like this (e will be passed as the second argument with both approaches):</li>
+
+          </ul>
+          <pre data-id="code-animation" style="font-size: 40%;"><code class="hljs" data-trim data-line-numbers>
+            &lt;button onClick={(e) =&gt; this.deleteRow(id, e)}&gt;Delete Row&lt;/button&gt;&#10;            //or&#10;            &lt;button onClick={this.deleteRow.bind(this, id)}&gt;Delete Row&lt;/button&gt;
+            
+          </code></pre>
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/conditional-rendering.html">Conditional rendering</a></h2>
+          <p>
+            You can render the components that you need, when you need them
+          </p>
+          <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+            function UserGreeting(props) {&#10;            &NonBreakingSpace; return &lt;h1&gt;Welcome back!&lt;/h1&gt;;&#10;            }&#10;            &#10;            function GuestGreeting(props) {&#10;            &NonBreakingSpace; return &lt;h1&gt;Please sign up.&lt;/h1&gt;;&#10;            }&#10;&#10;            function Greeting(props) {&#10;            &NonBreakingSpace; const isLoggedIn = props.isLoggedIn;&#10;            &NonBreakingSpace; if (isLoggedIn) {&#10;            &NonBreakingSpace; &NonBreakingSpace; return &lt;UserGreeting /&gt;;&#10;            &NonBreakingSpace; }&#10;            &NonBreakingSpace; return &lt;GuestGreeting /&gt;;&#10;            }&#10;            &#10;            const root = ReactDOM.createRoot(document.getElementById(&apos;root&apos;)); &#10;            // Try changing to isLoggedIn={true}:&#10;            root.render(&lt;Greeting isLoggedIn={false} /&gt;);
+          </code></pre>
+
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/lists-and-keys.html">Lists and keys</a></h2>
+          <div style="text-align: left;font-size: 70%;">
+           <ul>
+           <li>"key" is a special string attribute you need to include when creating lists of elements.</li>
+           <li>Keys help React identify which items have changed, are added, or are removed.</li>
+           <li>Keys must be unique among siblings.</li>
+           <pre data-id="code-animation" style="font-size: 50%;"><code class="hljs" data-trim data-line-numbers>
+            function NumberList(props) {&#10;            &NonBreakingSpace; const numbers = props.numbers;&#10;            &NonBreakingSpace; const listItems = numbers.map((number) =&gt;&#10;            &NonBreakingSpace; &NonBreakingSpace; &lt;li key={number.toString()}&gt;&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; {number}&#10;            &NonBreakingSpace; &NonBreakingSpace; &lt;/li&gt;&#10;            &NonBreakingSpace; );&#10;            &NonBreakingSpace; return (&#10;            &NonBreakingSpace; &NonBreakingSpace; &lt;ul&gt;{listItems}&lt;/ul&gt;&#10;            &NonBreakingSpace; );&#10;            }&#11;&#10;            const numbers = [1, 2, 3, 4, 5];&#10;            const root = ReactDOM.createRoot(document.getElementById(&apos;root&apos;));&#10;            root.render(&lt;NumberList numbers={numbers} /&gt;);
+          </code></pre>
+           <li> Best is to use unique stable keys, e.g., item indices work if absolutely necessary:</li>
+           <pre data-id="code-animation" style="font-size: 50%;"><code class="hljs" data-trim data-line-numbers>
+            const numbers = [{id:1, number: 1}, {id:2, number: 2}, {id:3, number: 3}, {id:4, number: 4}, {id:5, number: 5}];
+            </code></pre>
+          </ul>
+          </div>
+            
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/forms.html">Forms</a></h2>
+
+          <ul>
+            <li>Created as controlled components
+            <li>Not as simple as with HTML forms where elements maintain their own state</li>
+            <li>The state is updated with setState() based on the event from onChange</li>
+            <li>React state is the ”single source of truth”</li>
+            <li>Controlled component: input form element controlled by React</li>
+<!--            <li>Example in <a href="https://codepen.io/gaearon/pen/VmmPgp?editors=0010"> CodePen</a></li>-->
+          </ul>
+
+        </section>
+        <section>
+          <h2><a href="https://reactjs.org/docs/lifting-state-up.html">Location of the state</a></h2>
+
+          <ul>
+            <li>Should be kept in the common closest ancestor where it is needed</li>
+            <li>Sometimes needs to be lifted to
+              the ancestor
+                        
+                <ul><li>A callback is used to change the state as a prop</li></ul></li>
+        <!--   <li><a href="https://codepen.io/gaearon/pen/WZpxpz?editors=0010">Example</a></li> -->
+          </ul>
+
+
+          <pre data-id="code-animation" style="font-size: 40%;"><code class="hljs" data-trim data-line-numbers>
+&NonBreakingSpace;class TemperatureInput extends React.Component {&#10;&NonBreakingSpace; constructor(props) {&#10;&NonBreakingSpace; &NonBreakingSpace; super(props);&#10;&NonBreakingSpace; &NonBreakingSpace; this.handleChange = this.handleChange.bind(this);&#10;&NonBreakingSpace; }&#10;&mldr;&#10;&NonBreakingSpace; handleChange(e) {&#10;&NonBreakingSpace; &NonBreakingSpace; this.props.onTemperatureChange(e.target.value);&#10;&NonBreakingSpace; }&#10;&mldr;&#10;&NonBreakingSpace; &lt;TemperatureInput&#10;&NonBreakingSpace; &NonBreakingSpace; scale=&quot;c&quot;&#10;&NonBreakingSpace; &NonBreakingSpace; temperature={celsius}&#10;&NonBreakingSpace; &NonBreakingSpace; onTemperatureChange={this.handleCelsiusChange} /&gt;
+</code></pre>
+
+        </section>
+      </section>
+      <section>
+        <section>
+
+          <h2>Hooks</h2>
+          <ul>
+
+            <li>An addition with React 16.8 that allows the use of state and other React features without using classes</li>
+            <li>Optional (but now recommended)<ul>
+                <li>This actually makes everything simpler!
+                  <ul style="font-size: 60%;">
+                    <li>Why?</li>
+                    <li>The use of “this” has been confusing with classes</li>
+                    <li>Code reuse and code organisation easier is made easier</li>
+                    <li>Reuse stateful logic without changing component hierarchy</li>
+                    <li>Split components into smaller functions</li>
+                  </ul>
+                </li>
+              </ul>
+              <ul style="font-size: 60%;">
+                <li>Do more without classes!</li>
+                <ul>
+                  <li>Embrace functions, but do not require you to go completely functional.</li>
+               </ul>
+              </ul>
+              <a href="https://reactjs.org/docs/hooks-intro.html">https://reactjs.org/docs/hooks-intro.html</a>
+
+        </section>
+        <section>
+          <h2><a href="https://reactjs.org/docs/hooks-state.html">Using the State Hook</a></h2>
+          
+          <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+
+            import React, { useState } from &apos;react&apos;;&#10;&#10;            function Example() {&#10;              // Declare a new state variable, which we&apos;ll call &quot;count&quot;&#10;              const [count, setCount] = useState(0);&#10;            &#10;              return (&#10;                &lt;div&gt;&#10;                  &lt;p&gt;You clicked {count} times&lt;/p&gt;&#10;                  &lt;button onClick={() =&gt; setCount(count + 1)}&gt;&#10;                    Click me&#10;                  &lt;/button&gt;&#10;                &lt;/div&gt;&#10;              );&#10;            }
+            </code></pre>
+
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/hooks-state.html">Using the State Hook</a></h2>
+          <ul style="font-size: 80%;">
+            <li>useState lets you add React state to function components</li>
+            <li>Calling useState</li>
+            <ul><li>Declares a "state variable" that can be named</li>
+            <li>Provides the functionality provided by this.state in classes</li></ul>
+            <li>useState argument</li>
+            <ul><li>Is the initial state</li>
+            <li>Does not need to be a class</li></ul>
+            <li>useState returns</li>
+            <ul><li>A pair of values</li>
+            <ul><li>Current state</li>
+            <li>Function that updates it</li></ul></ul>
+          </ul>
+
+        </section>
+        <section>
+
+
+          <h2><a href="https://reactjs.org/docs/hooks-state.html">Using the State Hook</a></h2>
+
+          <ul>
+            <li>Reading state</li>
+            <ul>
+            <li>Use the variable directly</li>
+            </ul>
+            <li>Updating state</li>
+            <ul><li>Use the function that updates it, e.g.</li>
+              <pre data-id="code-animation"><code class="hljs" data-trim>setCount(count + 1)</code></pre></ul>
+          </ul>
+
+          
+
+          <ul><li>You can use more than one state variable</li>
+            <ul><li>Give different names</li></ul>
+            <li>Updates</li>
+          <ul><li>Always replace, never merge</li></ul>
+        </ul>
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/hooks-effect.html">Using The Effect Hook</a></h2>
+          <ul>
+            <li>Instruct to do something after render</li>
+            <li>Instead of<ul>
+                <li>componentDidMount</li>
+                <li>componentDidUpdate</li>
+                <li>componentWillUnmount</li>
+              </ul>
+            </li>
+            <li>Perform side effects in functional components</li>
+            <li>Call from within a component</li>
+          </ul>
+
+        </section>
+        <section>
+          <pre data-id="code-animation"><code class="hljs" data-trim data-line-numbers>
+          import React, { useState, useEffect } from &apos;react&apos;;&#10;&#10;          function Example() {&#10;            const [count, setCount] = useState(0);&#10;&#10;            useEffect(() =&gt; {&#10;              document.title = `You clicked ${count} times`;&#10;            });&#10;&#10;            return (&#10;              &lt;div&gt;&#10;                &lt;p&gt;You clicked {count} times&lt;/p&gt;&#10;                &lt;button onClick={() =&gt; setCount(count + 1)}&gt;&#10;                  Click me&#10;                &lt;/button&gt;&#10;              &lt;/div&gt;&#10;            );&#10;          } 
+
+          </code></pre>
+        
+        </section>
+        <section>
+          <h2><a href="https://reactjs.org/docs/hooks-effect.html#example-using-hooks-1">Clean up on unmount</a></h2>
+          <div style="text-align: left;">
+            <ul>
+              <li>If you need to do clean up (e.g., unsubscribe from something)</li>
+              <ul><li>Return a function where you clean up</li></ul>
+              <ul><ul><li>Executed on unmount but also before running the effect again</li></ul></ul>
+              <li>You can have multiple separate effects</li>
+              <li>For performance reasons, it is possible to specify effects to only run if certain variables have
+                changed</li>
+            </ul>
+          </div>
+        </section>
+        <section>
+          <pre data-id="code-animation"><code class="js" data-trim data-line-numbers>
+            useEffect(() =&gt; {&#10;              function handleStatusChange(status) {&#10;                setIsOnline(status.isOnline);&#10;              }&#10;              ChatAPI.subscribeToFriendStatus(props.friend.id,&#10;                handleStatusChange);&#10;              // Specify how to clean up after this effect:&#10;              return function cleanup() {&#10;                ChatAPI.unsubscribeFromFriendStatus(props.friend.id,&#10;                  handleStatusChange);&#10;              };&#10;            });
+          </code></pre>
+        
+        </section>
+        <section>
+          <h2><a href="https://reactjs.org/docs/hooks-rules.html">Hook rules</a></h2>
+          <p>In order for hooks to work smoothly, there are two rules you need to follow</p>
+          <ul style="font-size: 80%;">
+            <li>Only call hooks on the top level</li>
+            <ul><li>Not inside loops, conditions or nested functions!</li>
+            <li>Hooks need to be called in the same order each time a component renders</li></ul>
+            <li>Only call hooks from React functions</li>
+            <ul><li>Not from Javascript functions</li>
+            <li>Yes from React function components</li>
+            <li>Yes from custom Hooks</li></ul>
+          </ul>
+
+          <p>The eslint-plugin-react-hooks (included by default in Create React App)
+            enforces these rules</p>
+        </section>
+        <section>
+
+          <h2><a href="https://reactjs.org/docs/hooks-custom.html">Custom Hooks</a></h2>
+
+          <ul>
+            <li>Javascript function that starts with “use”</li>
+            <li>May call other hooks</li>
+            <li>Not a React component</li>
+            <ul><li>You decide what arguments it takes and what it returns</li></ul>
+            <li>Why?</li>
+            <ul>
+              <li>Remove duplicate logic from components</li>
+            </ul>
+              <li>Use it by just calling it, e.g.,
+                <pre style="font-size: 50%;"><code class="js">const isOnline = useFriendStatus(props.friend.id);</code></pre>
+              </li>
+            
+          </ul>
+
+
+        </section>
+
+        <section>
+
+          
+          <h2>Hooks API reference</h2>          
+          <a href="https://reactjs.org/docs/hooks-reference.html">https://reactjs.org/docs/hooks-reference.html</a>
+        </section>
+
+                
+        <section>
+          When using CDN, instead of import, you can say:
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+            const { useState, useEffect } = React;</code></pre>
+        </section>
+
+      </section>
+      <section>
+        <section>
+
+          <h2>React and AJAX</h2>
+          <div style="font-size: 60%;">
+            <a href="https://reactjs.org/docs/faq-ajax.html#how-can-i-make-an-ajax-call">
+              You can use what you like, e.g. Axios, Fetch, jQuery</a>, e.g., in <code>componentDidMount()</code>:
+          </div>
+
+          <!--app.use(function(req, res, next) {
+    res.header("Access-Control-Allow-Origin", "*");  
+    //Note! Enable CORS: server on a different port
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    next();
+});
+-->
+          <pre data-id="code-animation" style="font-size: 45%;"><code class="hljs" data-trim data-line-numbers>
+
+componentDidMount() {&#10;&NonBreakingSpace; &NonBreakingSpace; fetch(&quot;http://localhost:3000/static/test.json&quot;, {&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; method: &quot;GET&quot;&#10;&NonBreakingSpace; &NonBreakingSpace; })&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; .then(res =&gt; res.json())&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; .then(&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; result =&gt; {&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; this.setState({&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; data: JSON.stringify(result)&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; });&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; },&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; error =&gt; {&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; this.setState({&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; data: error.message&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; });&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; }&#10;&NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; );&#10;&NonBreakingSpace; }
+          </code></pre>
+        </section>
+        <section>
+          <h2>React and AJAX with Hooks</h2>
+        <ul>
+
+          <li>In this example we run the effect only once</li>
+          <ul> <li>By giving useEffect an empty array as a second parameter</li>
+        </ul>
+        <pre data-id="code-animation" style="font-size: 40%;"><code class="js" data-trim data-line-numbers>
+           useEffect(()=&gt;{&#10;        &NonBreakingSpace; &NonBreakingSpace; fetch(&quot;http://localhost:3000/static/test.json&quot;, {&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; method: &quot;GET&quot;&#10;        &NonBreakingSpace; &NonBreakingSpace; })&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; .then(res =&gt; res.json())&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; .then(&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; result =&gt; {&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; console.log(JSON.stringify(result));&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; },&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; error =&gt; { &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace;&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; console.log(error.message);&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; }&#10;        &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; );&#10;        },[]);
+      </code></pre>
+      <li>With custom hooks</li>
+          E.g. <a href="https://reactgo.com/fetch-data-react-hooks/">https://reactgo.com/fetch-data-react-hooks/</a> 
+        </ul>
+        </section>
+      </section>
+      <section>
+        <section
+            data-markdown
+            data-separator="^\n\n\n"
+            data-separator-vertical="^\n\n"
+            style="font-size:80%;"
+          >
+            <textarea data-template>
+              # [Context](https://reactjs.org/docs/context.html)
+              - Pass components through the component tree
+               - Without passing down props manually at every level
+
+
+
+              ### Why?
+              - Sometimes props are needed by multiple componennts
+              - Context makes it easier to share these values
+               - Without explicitly passing props through the tree
+
+              
+
+
+              ### So is it global states management?
+              - Not really
+               - It does not store or manage state
+              - It is a method of transporting state
+               - This can make it effectively like a global state
+              
+
+
+               ### [Example without Context](https://reactjs.org/docs/context.html#when-to-use-context)
+               ``` JSX
+              class App extends React.Component {&#10;                render() {&#10;                  return &lt;Toolbar theme=&quot;dark&quot; /&gt;;&#10;                }&#10;              }&#10;              &#10;              function Toolbar(props) {&#10;                // The Toolbar component must take an extra &quot;theme&quot; prop&#10;                // and pass it to the ThemedButton. This can become painful&#10;                // if every single button in the app needs to know the theme&#10;                // because it would have to be passed through all components.&#10;                return (&#10;                  &lt;div&gt;&#10;                    &lt;ThemedButton theme={props.theme} /&gt;&#10;                  &lt;/div&gt;&#10;                );&#10;              }&#10;              &#10;              class ThemedButton extends React.Component {&#10;                render() {&#10;                  return &lt;Button theme={this.props.theme} /&gt;;&#10;                }&#10;              }
+               ```
+
+
+
+               ### [Example with Context](https://reactjs.org/docs/context.html#when-to-use-context)
+              ``` JSX
+              // Context lets us pass a value deep into the component tree&#10;              // without explicitly threading it through every component.&#10;              // Create a context for the current theme (with &quot;light&quot; as the default).&#10;              const ThemeContext = React.createContext(&apos;light&apos;);&#10;&#10;              class App extends React.Component {&#10;                render() {&#10;                  // Use a Provider to pass the current theme to the tree below.&#10;                  // Any component can read it, no matter how deep it is.&#10;                  // In this example, we&apos;re passing &quot;dark&quot; as the current value.&#10;                  return (&#10;                    &lt;ThemeContext.Provider value=&quot;dark&quot;&gt;&#10;                      &lt;Toolbar /&gt;&#10;                    &lt;/ThemeContext.Provider&gt;&#10;                  );&#10;                }&#10;              }&#10;&#10;              // A component in the middle doesn&apos;t have to&#10;              // pass the theme down explicitly anymore.&#10;              function Toolbar() {&#10;                return (&#10;                  &lt;div&gt;&#10;                    &lt;ThemedButton /&gt;&#10;                  &lt;/div&gt;&#10;                );&#10;              }&#10;&#10;              class ThemedButton extends React.Component {&#10;                // Assign a contextType to read the current theme context.&#10;                // React will find the closest theme Provider above and use its value.&#10;                // In this example, the current theme is &quot;dark&quot;.&#10;                static contextType = ThemeContext;&#10;                render() {&#10;                  return &lt;Button theme={this.context} /&gt;;&#10;                }&#10;              }
+              ```
+
+
+              
+              ### [useContext](https://react.dev/reference/react/useContext)
+              - To use function components, you can use useContext
+               ``` JSX
+               import { createContext, useContext, useState } from 'react';
+
+               const theme = useContext(ThemeContext);
+               const className = 'panel-' + theme;
+               return (
+                 <section className={className}>
+                   <h1>{title}</h1>
+                   {children}
+                 </section>
+              ```
+
+
+
+              ### [Caveats and alternatives](https://reactjs.org/docs/context.html#before-you-use-context)
+              - Use when you need data to be accessible by many components at different nesting levels
+              - Context can make component reuse more difficult
+              - [Component composition](https://reactjs.org/docs/composition-vs-inheritance.html) can be a simpler solution
+               - If you just need to avoid passing some props through multiple levels
+              - Passing a component as a prop is another
+               - Pass fewer props
+               - Cleaner code
+
+            </textarea>
+          </section>
+
+      </section>
+      <section>
+        <section>
+          <h2>React Native</h2>
+          You can also create native apps for mobile devices
+          <a href="https://facebook.github.io/react-native/">https://facebook.github.io/react-native/</a>
+          <p>You can run apps using e.g. the Expo client or create real Native apps</p>
+        </section>
+
+      </section>
+
+    </div>
+
+  </div>
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/zoom/zoom.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/search/search.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
+    });
+
+  </script>
+
+</body>
+
+</html>

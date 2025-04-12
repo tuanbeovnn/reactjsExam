@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Redux (and React with Redux)</title>
+
+  <meta name="description" content="React introduction">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/moon.css" id="theme">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+  <style>
+    #iframe{
+      max-width: 100%;
+      -webkit-transform: scale(0.75);
+      -moz-transform: scale(0.75);
+      -ms-zoom: 0.75;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      <section>
+        <section>
+          <h3>React with Redux</h3>
+         
+          <ul>
+            <li>Using with Hooks</li>
+            <li>Using with Connect()</li>
+            <li>Redux Toolkit</li>
+          </ul>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h3>Advanced Web Development:  Front End</h3>
+          <h4>COMP.CS.520, Spring 2025</h4>
+          <h4>Topic: React with Redux</h4>
+          <p>Timo Nummenmaa</p>
+          <p>Mikko Nurminen, Prosper Evergreen</p>
+        </section>
+      </section>
+     
+      <section>
+        <section
+            data-markdown
+            data-separator="^\n\n\n"
+            data-separator-vertical="^\n\n"
+            style="font-size:80%;"
+          >
+            <textarea data-template>
+              # [React Redux](https://react-redux.js.org)
+              - Official React bindings for Redux
+              - (Redux Toolkit is another, currently recommended option)
+                - We will not be using in order to learn how all of this actually works
+                  - Don't get confused with the official site that uses it every now and then!
+                  - But we will talk about it
+                - Includes utilities to make things easier
+              
+
+
+              ## [Suggested way of use](https://react-redux.js.org/tutorials/quick-start)
+              - Provider
+                - To make the Redux store available
+              - Hooks
+                - Custom hooks provided by React Redux
+                - Allows components to interact with the Redux store
+
+
+
+              ## [Alternative (the "traditional" way)](https://react-redux.js.org/tutorials/connect)
+              - Provider
+                - To make the Redux store available
+              - Connect
+                - Connect the component to the store using
+                  - mapStateToProps
+                  - mapDispatchToProps
+
+
+
+              ## [Installation](https://react-redux.js.org/introduction/getting-started#installation) 
+              ```terminal
+              # To an existing app
+              npm install react-redux
+              # Remember to also install Redux and set up your store
+              ```
+
+
+
+              ## Create the Store
+              - When using Hooks, you will create the store using normally using createStore
+                - In e.g. src/redux/store.js
+              ```JavaScript
+                  import { createStore } from 'redux'
+
+                  export default createStore(
+                    rootReducer
+                  )
+              ```
+              - Creates a Redux store
+
+
+
+              ## Provider
+              - Put a React Redux <Provider> around the application to make the store available
+                - For both the Hooks way and the Connect way
+
+              ```jsx
+                import { Provider } from &apos;react-redux&apos;&#10;                import store from &quot;./store&quot;;&#10;                &#10;                ReactDOM.render(&#10;                  &lt;Provider store={store}&gt;&#10;                    &lt;App /&gt;&#10;                  &lt;/Provider&gt;,&#10;                  document.getElementById(&apos;root&apos;)&#10;                )
+              ```
+
+            </textarea>
+          </section>
+        </section>
+        <section>
+          <section
+          data-markdown
+          data-separator="^\n\n\n"
+          data-separator-vertical="^\n\n"
+          style="font-size:80%;"
+        >
+          <textarea data-template>
+              ## [Using with Hooks](https://react-redux.js.org/api/hooks)
+              - React's custom hooks let us extract reusable hooks to add our own behavior on top of React's built-in hooks.
+              - React Redux's custom hook APIs allows  React components to subscribe to the Redux store and dispatch actions.
+
+
+
+              ## [useSelector()](https://react-redux.js.org/api/hooks#useselector)
+              ```JavaScript
+              const result: any = useSelector(selector: Function, equalityFn?: Function)
+              ```
+              - Extract data from the Redux store state
+               - using a selector function
+              - Keep the function pure
+              - The selector will be called with the entire Redux store state as its only argument. 
+              - The selector will be run whenever the function component renders 
+               - (unless its reference hasn't changed since a previous render of the component so that a cached result can be returned by the hook without re-running the selector)
+              - Will subscribe to the Redux store
+               - Run the selector whenever an action is dispatched
+
+
+
+
+
+              ## [useSelector()](https://react-redux.js.org/api/hooks#useselector) examples
+
+              ```JavaScript
+                import React from &apos;react&apos;&#10;                import { useSelector } from &apos;react-redux&apos;&#10;                &#10;                export const CounterComponent = () =&gt; {&#10;                  const counter = useSelector((state) =&gt; state.counter)&#10;                  return &lt;div&gt;{counter}&lt;/div&gt;&#10;                }
+              ```
+              ```JavaScript
+                import React from &apos;react&apos;&#10;                import { useSelector } from &apos;react-redux&apos;&#10;&#10;                export const TodoListItem = (props) =&gt; {&#10;                  const todo = useSelector((state) =&gt; state.todos[props.id])&#10;                  return &lt;div&gt;{todo.text}&lt;/div&gt;&#10;                }
+              ```
+              ```JavaScript
+              //Use of optional comparison function&#10;                import { shallowEqual, useSelector } from &apos;react-redux&apos;&#10;&#10;                // later&#10;                const selectedData = useSelector(selectorReturningObject, shallowEqual)
+              ```
+
+
+
+              ## [useDispatch()](https://react-redux.js.org/api/hooks#usedispatch)
+              ```jsx
+                const dispatch = useDispatch()
+              ```
+                - Returns a reference to the dispatch function from the Redux store
+                - Use it to dispatch actions as needed
+
+              
+
+              ## [useDispatch()](https://react-redux.js.org/api/hooks#usedispatch) Basic Example
+              ```jsx
+                import React from &apos;react&apos;&#10;                import { useDispatch } from &apos;react-redux&apos;&#10;                &#10;                export const CounterComponent = ({ value }) =&gt; {&#10;                  const dispatch = useDispatch()&#10;                &#10;                  return (&#10;                    &lt;div&gt;&#10;                      &lt;span&gt;{value}&lt;/span&gt;&#10;                      &lt;button onClick={() =&gt; dispatch({ type: &apos;increment-counter&apos; })}&gt;&#10;                        Increment counter&#10;                      &lt;/button&gt;&#10;                    &lt;/div&gt;&#10;                  )&#10;                }
+              ```
+
+
+
+              ## [useStore()](https://react-redux.js.org/api/hooks#usestore)
+              - Returns a reference to the same Redux store that was passed to the Provider component.
+              - Should probably not be used frequently
+               - Prefer useSelector() as your primary choice.
+               - May be useful for less common scenarios that do require access to the store, such as replacing reducers.
+              
+               ```JavaScript
+               import React from &apos;react&apos;&#10;               import { useStore } from &apos;react-redux&apos;&#10;               &#10;               export const CounterComponent = ({ value }) =&gt; {&#10;                 const store = useStore()&#10;               &#10;                 // EXAMPLE ONLY! Do not do this in a real app.&#10;                 // The component will not automatically update if the store state changes&#10;                 return &lt;div&gt;{store.getState()}&lt;/div&gt;&#10;               }
+               ```
+
+
+
+
+              ## Usage warnings
+              - Check out a comprehensive list of potential issues [here](https://react-redux.js.org/api/hooks#usage-warnings)
+
+            </textarea>
+          </section>
+        </section>
+      <section>
+        <section
+        data-markdown
+        data-separator="^\n\n\n"
+        data-separator-vertical="^\n\n"
+        style="font-size:80%;"
+      >
+        <textarea data-template>
+          ## [Using with connect()](https://react-redux.js.org/tutorials/connect)
+          - The traditional way with mapStateToProps and mapDispatchToProps
+          - Also works with Class components
+
+
+
+          ## The two arguments of connect
+          - mapStateToProps
+           - called every time the store state changes
+           - It receives the entire store state, and should return an object of data this component needs.
+           - is similar to useSelector
+          - mapDispatchToProps
+           - Can be a function or object
+           - If it's a function, it will be called once on component creation.
+             - It will receive dispatch as an argument, and should return an object full of functions that use dispatch to dispatch actions.
+           - If it's an object full of action creators
+             - Each action creator will be turned into a prop function that automatically dispatches its action when called.
+
+
+
+          ## More [here](https://react-redux.js.org/tutorials/connect)
+          - Not recommended anymore and we will not use it in the course
+        </textarea>
+    
+       </section>
+
+      </section>
+      <section>
+        <a href="https://codesandbox.io/s/react-redux-hooks-counter-p7lyw">Example with React hooks</a>
+      </section>
+
+
+      <section>
+        <section
+        data-markdown
+        data-separator="^\n\n\n"
+        data-separator-vertical="^\n\n"
+        style="font-size:80%;"
+      >
+        <textarea data-template>
+          ## [Redux toolkit](https://redux-toolkit.js.org)
+          - The currently recommended way
+          - [Migration](https://redux-toolkit.js.org/usage/migrating-to-modern-redux)
+          - Made to eliminate boilerplate
+           - But because of it, it is not the best for learning!
+           - We are not learning only how to write React-Redux code, but how things work.
+           - To apply also outside React and Redux.
+
+
+
+          ## Some examples
+          - configureStore handles most of store setup automatically
+          - createSlice is made to eliminate hand-written action creators and action types
+          - RTK Query and createAsyncThunk for fetching data
+          - immutable updates are replaced by "mutating" logic in reducers thanks to Immer (a package for working with immutable state in a more convenient way.)
+
+
+
+          ## It is now recommended
+          - "We specifically created Redux Toolkit to eliminate the "boilerplate" from hand-written Redux logic, prevent common mistakes, and provide APIs that simplify standard Redux tasks.
+           -[Why Redux Toolkit is How To Use Redux Today](https://redux-toolkit.js.org/introduction/why-rtk-is-redux-today)
+
+
+        </textarea>
+    
+       </section>
+
+      </section>
+
+    </section>
+    </div>
+
+  </div>
+  <!-- 
+       ## [Custom context](https://react-redux.js.org/api/hooks#custom-context)
+              - The Provider component allows you to specify an alternate context via the context prop.
+               - Useful when building a complex reusable component
+                - Prvent store from colliding with Redux store your consumers' applications might use.
+
+              ```jsx
+                import React from &apos;react&apos;&#10;                import {&#10;                  Provider,&#10;                  createStoreHook,&#10;                  createDispatchHook,&#10;                  createSelectorHook&#10;                } from &apos;react-redux&apos;&#10;&#10;                const MyContext = React.createContext(null)&#10;&#10;                // Export your custom hooks if you wish to use them in other files.&#10;                export const useStore = createStoreHook(MyContext)&#10;                export const useDispatch = createDispatchHook(MyContext)&#10;                export const useSelector = createSelectorHook(MyContext)&#10;&#10;                const myStore = createStore(rootReducer)&#10;&#10;                export function MyProvider({ children }) {&#10;                  return (&#10;                    &lt;Provider context={MyContext} store={myStore}&gt;&#10;                      {children}&#10;                    &lt;/Provider&gt;&#10;                  )&#10;                }
+              ```
+
+              ## [State slice](https://react-redux.js.org/tutorials/quick-start#create-a-redux-state-slice)
+              - In e.g. src/features/counter/counterSlice.js
+              - Creating a slice requires
+                - a string name to identify the slice
+                - an initial state value
+                - one or more reducer functions to define how the state can be updated. 
+              - We can export the generated Redux action creators and the reducer function for the whole slice.
+
+              ## [State slice example](https://react-redux.js.org/tutorials/quick-start#create-a-redux-state-slice)-->
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/zoom/zoom.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/search/search.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
+    });
+
+  </script>
+
+</body>
+
+</html>

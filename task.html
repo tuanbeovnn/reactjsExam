@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Exam Task</title>
+    <link rel="stylesheet" href="http://localhost:8080/css/mocha.css">
+    <link rel="stylesheet" href="http://localhost:8080/css/bootstrap.css" />
+</head>
+<body>
+
+    <!-- Load Babel -->
+    <script src="http://localhost:8080/lib/babel.min.js"></script>
+
+
+    <div id="root"></div>
+    <div id="mocha"></div>
+
+    <!-- Load Mocha First -->
+    <script src="http://localhost:8080/lib/mocha.js"></script>
+    
+    <!-- Load Stable React & ReactDOM -->
+    <script src="http://localhost:8080/lib/react.development.js"></script>
+    <script src="http://localhost:8080/lib/react-dom.development.js"></script>
+
+    <!-- Load Stable Redux & React-Redux -->
+    <script src="http://localhost:8080/lib/redux.min.js"></script>
+    <script src="http://localhost:8080/lib/react-redux.min.js"></script>
+    <script src="http://localhost:8080/lib/redux-thunk.min.js"></script>
+
+    <script type="text/babel" data-type="module">
+        import { expect } from 'http://localhost:8080/lib/chai.js'
+
+        const {useSelector, useDispatch, Provider} = ReactRedux;
+        const {useState, useEffect} = React;
+        const {legacy_createStore, applyMiddleware} = Redux;
+        const thunk = reduxThunk;
+
+        mocha.setup("bdd");
+
+        // --- STUDENT CODE WILL BE INSERTED HERE ---
+
+
+        // --- TESTS WILL BE INSERTED HERE ---
+
+        mocha.run();
+    </script>
+</body>
+</html>

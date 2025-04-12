@@ -1,0 +1,660 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+
+  <title>Redux</title>
+
+  <meta name="description" content="React introduction">
+
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <link rel="stylesheet" href="dist/reset.css">
+  <link rel="stylesheet" href="dist/reveal.css">
+  <link rel="stylesheet" href="dist/theme/moon.css" id="theme">
+
+  <!-- Theme used for syntax highlighting of code -->
+  <link rel="stylesheet" href="plugin/highlight/monokai.css" id="highlight-theme">
+  <style>
+    #iframe{
+      max-width: 100%;
+      -webkit-transform: scale(0.75);
+      -moz-transform: scale(0.75);
+      -ms-zoom: 0.75;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="reveal">
+
+    <!-- Any section element inside of this container is displayed as a slide -->
+    <div class="slides">
+
+      <section>
+        <section>
+          <h3>Redux</h3>
+            <li>Handling state with Redux</li>
+            <ul>
+            <li>Actions</li>
+            <li>Reducers</li>
+            <li>Store</li>
+            <li>Data flow</li>
+            <li>Data from a server</li>
+            <li>Examples</li>
+            </ul>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h3>Advanced Web Development:  Front End</h3>
+          <h4>COMP.CS.520, Spring 2025</h4>
+          <h4>Topic: Redux</h4>
+          <p>Timo Nummenmaa</p>
+          <p>Mikko Nurminen, Prosper Evergreen</p>
+        </section>
+      </section>
+      <section>
+        <section>
+
+          <h2>Handling application state with Redux</h2>
+          <div>
+
+            <ul>
+
+              <li>Redux
+                <ul>
+                  <li>warrants a predictable state container for JavaScript apps:
+                    <a href="https://redux.js.org">https://redux.js.org</a>
+                  </li>
+                </ul>
+              </li>
+              <li>Actions</li>
+              <ul><li>Describe what happened</li></ul>
+              <li>Reducers</li>
+              <ul><li>Return a new state based on
+                <ul style="font-size: 80%;">
+                  <li>Previous state</li>
+                  <li>Action</li>
+                </ul>
+              </li></ul>
+
+            </ul>
+          </div>
+        </section>
+        <section>
+          <h2>Motivation</h2>
+          <div>
+            <ul>
+              <li>More state changes in single page JavaScript applications than ever before</li>
+              <ul><li>Managing the state is hard</li></ul>
+              <li>There is a lot of complexity and managing complexity is hard</li>
+              <ul><li>Especially as we combine mutations and asynchronicity</li></ul>
+              <li>React helps in DOM manipulation</li>
+              <ul><li>State management needs something else</li></ul>
+            </ul>
+          </div>
+        </section>
+        <section>
+          <style>
+            .locbar {
+              border-radius: 5px;
+              border: 1px solid #ccc;
+              /* background-color:#fff; */
+              height: 35px;
+              padding-left: 10px;
+            }
+
+            .item {
+              float: left;
+              display: inline-block;
+              line-height: 35px;
+              padding-left: 5px;
+              font-family: Arial;
+            }
+
+            .arrow {
+              float: left;
+              position: relative;
+              transform: rotate(-45deg) skew(-15deg, -15deg);
+              display: inline-block;
+              box-shadow: 1px 1px 3px 0px rgba(0, 0, 0, 0.15);
+              border-bottom: 1px solid #ccc;
+              border-right: 1px solid #ccc;
+              width: 19px;
+              height: 19px;
+              top: 8px;
+              left: -8px;
+            }
+          </style>
+          <h2>Predictable mutations</h2>
+          <div>
+            <b>Redux attempts to make state mutations predictable</b> by imposing restrictions on how and when updates
+            can happen.</div>
+            <br/>
+          <div>
+            Following the footsteps of</div>
+        
+          <div>
+            <a href="https://facebookarchive.github.io/flux/">
+              Flux
+            </a>,
+            <a href="https://martinfowler.com/bliki/CQRS.html">
+              CQRS
+            </a> and 
+            <a href="https://martinfowler.com/eaaDev/EventSourcing.html">
+              Event Sourcing
+            </a>
+          </div>
+        <div>
+         <ul><li> <a href="https://redux.js.org/introduction/motivation">More here</a></li></ul>
+        </div>
+        </section>
+        <section style="font-size: 80%;">
+          <h2>Concepts</h2>
+          <ul>
+          <li> State is described as a plain object</li>
+          <ul><li>To change something in the state, an action (also a plain object) is dispatched</li>
+          <ul><li>Actions reveal what happens in the application</li></ul><ul></ul>
+          <li>Finally, a reducer is used to create a new state</li>
+          <ul>
+            <li>It takes an action as an argument and returns the next state</li>
+            <li>Smaller reducers can be combined to be a bigger reducer
+           
+            </li>
+
+          </ul></ul>
+
+          <br/>
+          <a href="https://redux.js.org/introduction/core-concepts">
+            https://redux.js.org/introduction/core-concepts
+          </a>
+         
+        </section>
+        <section>
+          <h2>Three Principles</h2>
+          <ul>
+            <li>Single source of truth</li>
+            <ul><li>The state of your whole application is stored in an object tree within a single store.</li></ul>
+            <li>State is read-only</li>
+            <ul><li>The only way to change the state is to emit an action, an object describing what happened.</li></ul>
+            <li>Changes are made with pure functions</li>
+            <ul><li>To specify how the state tree is transformed by actions, you write pure reducers.</li></ul>
+            <li>
+            <a
+            href="https://redux.js.org/introduction/three-principles">https://redux.js.org/introduction/three-principles</a>
+            </li>
+          </ul>
+
+         
+        </section>
+        <section>
+          <h2>Prior Art</h2>
+          <div>
+            <ul>
+              Redux has similarities with multiple technologies, such as
+              <li><a href="https://facebookarchive.github.io/flux/">Flux</a></div>
+            <ul><ul>
+              <li>Several qualities of Flux have inspired Redux</li>
+              <li>Concentrating model update logic in a specific layer</li>
+              <li>It can be said that Redux is true to the Flux architecture</li>
+              <li>Flux uses event emitters instead of pure functions</li>
+            </ul> </ul> 
+          </ul>
+        </section>
+        <section>
+          <p>Other influencers include:</p>
+          <ul>
+            <li><a href="http://elm-lang.org/">Elm</a></li>
+            <li><a href="https://facebook.github.io/immutable-js">Immutable</a></li>
+            <li><a href="https://github.com/Yomguithereal/baobab">Baobab</a></li>
+            <li><a href="https://github.com/ReactiveX/RxJS">RxJS</a></li>
+          </ul>
+          <a href="https://redux.js.org/introduction/prior-art">https://redux.js.org/introduction/prior-art</a>
+
+          </p>
+        </section>
+        <section>
+          <h2>Elm</h2>
+          <ul>
+            <li>Is a language and</li>
+            <ul>
+              <li>Elm “updaters” serve the same purpose as reducers in Redux.</li>
+              <li>Can enforce practices compared to a library.</li>
+              <li>It is recommended to explore it even if you don't use it.</li>
+            </ul>  
+          </ul>
+        </section>
+        <section>
+          <h2>
+            Redux and React</h2>
+          <ul>
+            <li>Often used with React</li>
+            <ul><li>But not exclusively</li>
+            <li>Can be used also with e.g. jQuery, Angular or plain JavaScript</li>
+             </ul>
+          </ul>
+        </section>
+        <section>
+          <h2>
+
+            Installation</h2>
+          <ul>
+            <li><a href="https://redux.js.org/introduction/installation">Instructions</a></li>
+            <li><a href="https://github.com/reduxjs/redux-devtools">Devtools</a></li>
+          </ul>
+          <p>Installation command for redux core:</p>
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+            npm install redux
+          </code></pre>
+        </section>
+        <section>
+          <h2>DevTools</h2>
+          <ul>
+          <li>Helps debugging</li>
+          <li>Instructions <a href="https://github.com/reduxjs/redux-devtools">here</a></li>
+          <li>Simple way to use:</li>
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+          const store = createStore(reducer,window.__REDUX_DEVTOOLS_EXTENSION__ &&
+            window.__REDUX_DEVTOOLS_EXTENSION__())
+            </code></pre>
+          <li>And then install browser extension</li>
+          <li>Or from npm with <a href="https://github.com/reduxjs/redux-devtools/tree/main/extension#13-use-redux-devtools-extension-package-from-npm">redux-devtools-extension package</a></li>
+          </ul>
+        </section>
+
+
+
+        <section>
+          <h2>
+
+            Browser extension</h2>
+          <div>
+            
+            Use compose to use with thunk
+            <pre data-id="code-animation"><code class="hljs" data-trim>
+            const {createStore, applyMiddleware, combineReducers, compose} = Redux;&#10;&#10;            const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;&#10;            const store = createStore(todoApp, composeEnhancers(&#10;            &NonBreakingSpace; &NonBreakingSpace; applyMiddleware(thunkMiddleware)&#10;            &NonBreakingSpace; ));
+            </code></pre>
+
+          </div>
+        </section>
+        <!-- <section>
+          <h2>
+
+            CDN</h2>
+          <div>
+            To use CDN:
+            <script src="https://unpkg.com/redux@latest/dist/redux.min.js"></script>
+            <script src="https://unpkg.com/babel-standalone@latest/babel.min.js"></script>
+
+            <script type="text/babel">
+              const { createStore, applyMiddleware } = Redux;
+
+            </script>
+
+            Basics</h2>
+            <div>
+              We will follow the basic tutorial
+              https://redux.js.org/basics/basic-tutorial
+
+            </div>
+        </section> -->
+      </section>
+      <section>
+        <section>
+        <h2>createStore deprecated</h2>
+         <p> For the examples: </p>
+         <p>Note that createStore is now deprecated and "legacy_createStore" is a non deprecated version. </p>
+         <p>More about this later.</p>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2><a href="https://redux.js.org/tutorials/essentials/part-1-overview-concepts#actions">Actions</a></h2>
+          <ul>
+            <li>Payloads of information that send data from your application to your store</li>
+            <li>Plain JavaScript objects</li>
+            <li>Action types are usually defined as constants</li>
+            <li>Action creators return actions</li>
+            <li>Actions are dispatched to change the state</li>
+            <li>Describe what happened</li>
+          </ul>
+        </section>
+        <section
+        data-markdown
+        data-separator="^\n\n\n"
+        data-separator-vertical="^\n\n"
+        style="font-size:80%;"
+      >
+        <textarea data-template>
+          ## [Action fields](https://redux.js.org/tutorials/fundamentals/part-2-concepts-data-flow#actions)
+          - The type field should be a string that gives this action a descriptive name, like "todos/todoAdded". 
+          - It is suggested to be like "domain/eventName", where the first part is the feature or category that this action belongs to, and the second part is the specific thing that happened.
+
+          - An action object can have other fields with additional information about what happened. By convention, the information is put in a field called payload.
+        </textarea>
+</section>
+        <section>
+            <pre data-id="code-animation"><code class="hljs" data-trim>                   
+            //action type&#10;            const ADD_TODO = &apos;todos/todoAdded&apos;&#10;            //what an action object would look like&#10;            {&#10;            &NonBreakingSpace; type: ADD_TODO,&#10;            &NonBreakingSpace; payload: &apos;Build my first Redux app&apos;&#10;            }&#10;&#10;            //action creator (returns the action)&#10;            export function addTodoAction(payload) {&#10;            &NonBreakingSpace; return { type: ADD_TODO, payload }&#10;            }&#10;&#10;            //dispatch action&#10;            store.dispatch(addTodoAction(&apos;Build my first Redux app&apos;))
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <section style="font-size: 80%;">
+          <h2>
+
+            <a href="https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#writing-reducers">Reducers (1/4)</a></h2>
+          <ul>
+            <li>Specify how the application's state changes in response to actions sent to the store</li>
+            <li>The state is reduced based on an action and a new state is returned</li>
+            <li>Design the state shape first</li>
+            <ul>
+            <li>It should be a single tree</li>
+            <li>You will probably need to store e.g. data and UI state information</li>
+            <ul><li>Keep these as separate branches</li></ul>
+            <li>The state is kind of like a database</li>
+            <li>It is suggested to not have any nesting and to store entities so that they have an ID as a key</li>
+            </ul>
+          </ul>
+        </section>
+        <section>
+          <h2>
+
+            Reducers (2/4)</h2>
+          <ul> 
+            <li>A pure function that takes the previous state and an action, and returns the next state</li>
+            <ul><li>(previousState, action) => newState</li></ul>
+            <li>Never do these inside a reducer to keep it pure</li>
+            <ul>
+            <li>Mutate its arguments</li>
+            <li>Perform side effects like API calls and routing transitions</li>
+            <li>Call non-pure functions, e.g. Date.now() or Math.random()</li>
+            </ul>
+          </ul>
+        </section>
+        <section>
+          <h2>
+
+            Reducers (3/4)</h2>
+          <ul>
+            <li>We don't mutate the state</li>
+            <li>We return the previous state in the default case</li>
+          </ul>
+          <pre data-id="code-animation"><code class="hljs" data-trim>         
+            function todoApp(state = initialState, action) {&#10;            &NonBreakingSpace; switch (action.type) {&#10;            &NonBreakingSpace; &NonBreakingSpace; //handle an action&#10;            &NonBreakingSpace; &NonBreakingSpace; case ADD_TODO:&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; //optionally use the spread operator to copy&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; //enumerable properties from one object to another&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; //e.g. return {...state, todos: [as below]}&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return Object.assign({}, state, {&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; todos: [&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; ...state.todos,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; {&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; text: action.text,&#10;            &NonBreakingSpace;  &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace;&NonBreakingSpace; completed: false&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; }&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; ]&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; })&#10;            &NonBreakingSpace; &NonBreakingSpace; //case XYZ: would handle another action&#10;            &NonBreakingSpace; &NonBreakingSpace; //return the default state&#10;            &NonBreakingSpace; &NonBreakingSpace; default:&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return state&#10;            &NonBreakingSpace; }&#10;            }
+            </code></pre>
+
+        </section>
+        <!-- <section>
+          <h2>
+
+            Spread operators</h2>
+          <div>
+            https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+            Nice syntax when copying properties
+            {...state, newstate}
+            [...iterableObj, '4', 'five', 6]
+            Is used on the previous slide for objects and arrays
+            You may need to use e.g. Babel at the moment for the object spread operator, but the newest browsers should
+            support it
+            More info on the object spread operator on the redux site
+            https://redux.js.org/recipes/using-object-spread-operator
+
+          </div>
+        </section> -->
+        <section>
+          <h2>
+
+            Reducers (4/4)</h2>
+          <div>
+            We can split the reducers into smaller pieces and then combine them
+            <b>by hand</b> or using <b><a href="https://redux.js.org/api/combinereducers">combineReducers()</a></b>  
+            <ul><ul><li>The resulting reducer calls every child reducer, and gathers their results into a single state object</li></ul></ul>          
+          </div>
+        </section>
+
+        <section>
+          <pre data-id="code-animation"><code class="hljs" data-trim>   
+          function visibilityFilter(state = SHOW_ALL, action) {&#10;          &NonBreakingSpace; switch (action.type) {&#10;          &NonBreakingSpace; &NonBreakingSpace; case SET_VISIBILITY_FILTER:&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return action.filter&#10;          &NonBreakingSpace; &NonBreakingSpace; default:&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return state&#10;          &NonBreakingSpace; }&#10;          }&#10;          function todos(state = [], action) {&#10;          &NonBreakingSpace; switch (action.type) {&#10;          &NonBreakingSpace; &NonBreakingSpace; case ADD_TODO:&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return [&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; ...state,&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; {&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; text: action.payload,&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; completed: false&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; }&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; ]&#10;          &NonBreakingSpace; &NonBreakingSpace; case TOGGLE_TODO:&#10;          &NonBreakingSpace; &NonBreakingSpace; //content of TOGGLE_TODO omitted&#10;          &NonBreakingSpace; &NonBreakingSpace; default:&#10;          &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return state&#10;          &NonBreakingSpace; }&#10;          }&#10;          const todoApp = combineReducers({&#10;          &NonBreakingSpace; visibilityFilter,&#10;          &NonBreakingSpace; todos&#10;          })
+          </code></pre>
+        </section>
+      </section>
+      <section>
+        <section>
+          <h2><a href="https://redux.js.org/basics/store">Store (1/2)</a></h2>
+          <ul>
+            <li>The store brings the actions and reducers together</li>
+            <li>You will only have a single store in a Redux application</li>
+            <li>The store</li>
+            <ul>
+            <li>Holds application state</li>
+            <li>Allows access to state via <a href="https://redux.js.org/api/store/#getstate">getState()</a></li>
+            <li>Allows state to be updated via <a href="https://redux.js.org/api/store/#dispatchaction">dispatch(action)</a></li>
+            <li>Registers listeners via <a href="https://redux.js.org/api/store/#subscribelistener">subscribe(listener)</a></li>
+            <li>Handles unregistering of listeners via the function returned by <a href="https://redux.js.org/api/store/#subscribelistener">subscribe(listener)</a></li>
+            </ul>
+          </ul>
+        </section>
+        
+        <section style="font-size: 80%;">
+          <h2>
+
+            Store (2/2)</h2>
+          <div>
+            <pre data-id="code-animation"><code class="hljs" data-trim>   
+            //Create the store&#10;            //You may optionally specify the initial state&NonBreakingSpace;&#10;            //as the second argument to createStore()&#10;            import { createStore } from &apos;redux&apos;&#10;            const store = createStore(todoApp)&#10;&#10;            console.log(store.getState())&#10;&#10;            // Every time the state changes, log it&#10;            // Note that subscribe() returns a function for unregistering the listener&#10;            const unsubscribe = store.subscribe(() =&gt; console.log(store.getState()))&#10;&#10;            // Dispatch some actions&#10;            store.dispatch(addTodoAction(&apos;Learn about actions&apos;))&#10;&#10;            // Stop listening to state updates&#10;            unsubscribe()
+            </code></pre>
+          </div>
+        </section>
+      </section>
+      <section>
+        <section style="font-size: 80%;">
+          <h2><a href="https://redux.js.org/basics/data-flow">Data flow</a></h2>
+          <ul>
+            <li>Strict unidirectional data flow</li>
+            <li>The data lifecycle in a Redux app:</li>
+            <ol>
+            <li>You call <a href="https://redux.js.org/api/store#dispatchaction">store.dispatch(action)</a>.</li>
+            <li>The Redux <a href="https://redux.js.org/tutorials/fundamentals/part-4-store">store</a> calls the <a href="https://redux.js.org/tutorials/fundamentals/part-3-state-actions-reducers#writing-reducers">reducer</a> function you gave it.</li>
+            <ul><li>
+            The store will pass two arguments to the reducer: the current state tree and the action. The reducer
+            then <em>computes</em> the next state</li></ul>
+            <li>The root reducer may combine the output of multiple reducers into a single state tree.</li>
+            <li>The Redux store saves the complete state tree returned by the root reducer.</li>
+            </ol>
+           
+          </ul>
+        </section>
+      </section>
+
+      <section>
+        <section>
+          <h2>
+            Data from a server</h2>          
+          <a href="https://redux.js.org/tutorials/fundamentals/part-6-async-logic">We use asynchronouse actions</a>
+          
+        </section>
+        <section style="font-size: 80%;">
+        
+            <h2><a href="https://redux.js.org/tutorials/fundamentals/part-7-standard-patterns#async-request-status">Actions when calling an asynchronous API</a></h2>
+            <ul>
+            <li>Usually, for any API request you'll want to dispatch at least three different kinds of actions:</li>
+            <ul>
+              <li>An action informing the reducers that the request began.<ul><li>This will result in setting a loading state.</li></ul></li>
+              <li>An action informing the reducers that the request finished successfully.</li>
+              <li>An action informing the reducers that the request failed.</li>
+            </ul>
+            <li>You can use separate types or a status field to represent these.</li>
+            </ul>
+
+        </section>
+        <section>
+          <pre data-id="code-animation"><code class="hljs" data-trim>   
+          { type: 'FETCH_POSTS_REQUEST' }
+          { type: 'FETCH_POSTS_FAILURE', error: 'Oops' }
+          { type: 'FETCH_POSTS_SUCCESS', response: { ... } }
+          //or
+          { type: 'FETCH_POSTS' }
+          { type: 'FETCH_POSTS', status: 'error', error: 'Oops' }
+          { type: 'FETCH_POSTS', status: 'success', response: { ... } }
+         </code></pre>
+        </section>
+        <section style="font-size: 80%;">
+          <h2>
+
+            Designing the State Shape for Async</h2>
+          <div>
+            <pre data-id="code-animation"><code class="hljs" data-trim style="font-size: 80%;">
+            {&#10;            &NonBreakingSpace; selectedSubreddit: &apos;frontend&apos;,&#10;            &NonBreakingSpace; postsBySubreddit: {&#10;            &NonBreakingSpace; &NonBreakingSpace; frontend: {&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; isFetching: true,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; didInvalidate: false,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; items: []&#10;            &NonBreakingSpace; &NonBreakingSpace; },&#10;            &NonBreakingSpace; &NonBreakingSpace; reactjs: {&#10;                  // isFetching to show a spinner (e.g. when REQUEST_POSTS happens)&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; isFetching: false,&#10;                  // didInvalidate is toggled when data is stale and (e.g. on INVALIDATE_SUBREDDIT)&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; didInvalidate: false,&#10;                  //lastUpdated to know when the data was fetched (e.g. on RECEIVE_POSTS)&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; lastUpdated: 1439478405547,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; items: [&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; {&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; id: 42,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; title: &apos;Confusion about Flux and Relay&apos;&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; },&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; {&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; id: 500,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; title: &apos;Creating a Simple Application Using React JS and Flux Architecture&apos;&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; }&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; ]&#10;            &NonBreakingSpace; &NonBreakingSpace; }&#10;            &NonBreakingSpace; }&#10;            }
+            </code></pre>
+            <ul>
+            <li>New docs focus on use with react, some old docs show how this works more clearly with pure redux</li>
+            <li><a href="https://github.com/reduxjs/redux/tree/master/examples/async">Example on github</a></li>
+            <li><a href="https://es.redux.js.org/docs/avanzado/ejemplo-api-reddit.html">Example on spanish version of redux docs</a></li>
+            </ul>
+          </div>
+        </section>
+
+        <section style="font-size: 80%;">
+          <h2><a href="https://redux.js.org/usage/writing-logic-thunks#what-is-a-thunk">Redux Thunk</a></h2>
+            <ul>
+            <li>Do delayed work</li>
+            <li>Middleware
+              <ul><li>You could <a href="https://redux.js.org/tutorials/fundamentals/part-6-async-logic#redux-middleware-and-side-effects">write your own!</a></li></ul>
+            </li>
+            <li>Write action creators that return a function instead of an action</li>
+            <li>Implement e.g. asynchronous dispatch</li>
+            <li>Not the only way to orchestrate asynchronous actions in Redux</li>
+            <br/>
+            Example of use through a CDN
+            <pre data-id="code-animation"><code class="hljs" data-trim>
+            &lt;script src=&quot;https://unpkg.com/redux-thunk@latest/dist/redux-thunk.min.js&quot;&gt;&lt;/script&gt;&#10;            const thunkMiddleware = ReduxThunk.default;
+            </code></pre>
+            <pre data-id="code-animation"><code class="hljs" data-trim>
+            const store = createStore(&#10;            &NonBreakingSpace; rootReducer,&#10;            &NonBreakingSpace; applyMiddleware(&#10;            &NonBreakingSpace; &NonBreakingSpace; thunkMiddleware, // lets us dispatch() functions&#10;            &NonBreakingSpace; )&#10;            )
+          </code></pre>
+       
+        </section>
+        <section style="font-size: 80%;">
+          <h2>
+
+            Async Action Creators with Redux Thunk</h2>
+         
+            <ul>
+            <li>Using Thunk, an action creator can return a function instead of an action object</li>
+            <ul><li>When an action creator returns a function, that function will get executed by the Redux Thunk middleware.</li></ul>
+            <ul><ul><li>This function doesn't need to be pure; it is thus allowed to have side effects, including executing asynchronous API calls.</li></ul></ul>
+            <ul><ul><li>The function can also dispatch actions—like those synchronous actions we defined earlier.</li></ul></ul>
+            </ul>
+            
+          
+        </section>
+
+        <section>
+          Full example <a href="https://es.redux.js.org/docs/avanzado/ejemplo-api-reddit.html">here</a> 
+              
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+            function fetchPosts(subreddit) {&#10;            &NonBreakingSpace; return dispatch =&gt; {&#10;            &NonBreakingSpace; &NonBreakingSpace; dispatch(requestPosts(subreddit))&#10;            &NonBreakingSpace; &NonBreakingSpace; return fetch(`https://www.reddit.com/r/${subreddit}.json`)&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; .then(response =&gt; response.json())&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; .then(json =&gt; dispatch(receivePosts(subreddit, json)))&#10;            &NonBreakingSpace; }}&#10;            //call using store.dispatch(fetchPosts(&apos;reactjs&apos;))
+          </code></pre>
+        </section>
+        <section>
+          <pre data-id="code-animation"><code class="hljs" data-trim>
+            //Actions and reducer&#10;&#10;            const REQUEST_POSTS = &apos;REQUEST_POSTS&apos;&#10;            const RECEIVE_POSTS = &apos;RECEIVE_POSTS&apos;&#10;            &#11;&#10;            function requestPosts(subreddit) {&#10;            &NonBreakingSpace; return {&#10;            &NonBreakingSpace; &NonBreakingSpace; type: REQUEST_POSTS,&#10;            &NonBreakingSpace; &NonBreakingSpace; subreddit&#10;            &NonBreakingSpace; }&#10;            }&#10;            &#11;&#10;            function receivePosts(subreddit, json) {&#10;            &NonBreakingSpace; return {&#10;            &NonBreakingSpace; &NonBreakingSpace; type: RECEIVE_POSTS,&#10;            &NonBreakingSpace; &NonBreakingSpace; subreddit,&#10;            &NonBreakingSpace; &NonBreakingSpace; posts: json.data.children.map(child =&gt; child.data),&#10;            &NonBreakingSpace; &NonBreakingSpace; receivedAt: Date.now()&#10;            &NonBreakingSpace; }&#10;            }&#10;&#10;            function posts(&#10;            &NonBreakingSpace; state = {&#10;            &NonBreakingSpace; &NonBreakingSpace; isFetching: false,&#10;            &NonBreakingSpace; &NonBreakingSpace; didInvalidate: false,&#10;            &NonBreakingSpace; &NonBreakingSpace; items: []&#10;            &NonBreakingSpace; },&#10;            &NonBreakingSpace; action&#10;            ) {&#10;            &NonBreakingSpace; switch (action.type) {&#10;            &NonBreakingSpace; &NonBreakingSpace; case REQUEST_POSTS:&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return Object.assign({}, state, {&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; isFetching: true,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; didInvalidate: false&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; })&#10;            &NonBreakingSpace; &NonBreakingSpace; case RECEIVE_POSTS:&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return Object.assign({}, state, {&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; isFetching: false,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; didInvalidate: false,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; items: action.posts,&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; lastUpdated: action.receivedAt&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; })&#10;            &NonBreakingSpace; &NonBreakingSpace; default:&#10;            &NonBreakingSpace; &NonBreakingSpace; &NonBreakingSpace; return state&#10;            &NonBreakingSpace; }&#10;            }
+          </code></pre>
+        </section>
+                        <!--<a href=""></a>-->
+        </section>
+        <section>
+        <section>
+          <h2>Examples</h2>
+          <div>
+
+            Official examples <a href="https://redux.js.org/introduction/examples"> here</a>
+
+          </div>
+        </section>
+<!--        <section>
+          Simple example with React
+          <a href="https://github.com/jackielii/simplest-redux-example">https://github.com/jackielii/simplest-redux-example</a>
+        </section>-->
+
+        <section>
+          <h2>You Might Not Need Redux</h2>
+          <div>
+            By the creator of Redux
+            <a href="https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367">https://medium.com/@dan_abramov/you-might-not-need-redux-be46360cf367</a>
+            
+
+          </div>
+        </section>
+        <section>
+          <h2>
+            NEXT </h2>
+          <div>
+            <ul>
+            <li>We combine React and Redux</li>
+            <li>After that, we can have the following combination:</li>
+              <ul>
+            <li>React+Redux as the frontend</li>
+            <li>REST API that acts as the server</li>
+            <li>Communicating between the two with AJAX</li>
+            <li>=> Single page application with state management on the client and data on the server</li>
+              </ul>
+            </ul>
+        </section>
+      </section>
+     
+    </div>
+
+  </div>
+  <!-- 
+       ## [Custom context](https://react-redux.js.org/api/hooks#custom-context)
+              - The Provider component allows you to specify an alternate context via the context prop.
+               - Useful when building a complex reusable component
+                - Prvent store from colliding with Redux store your consumers' applications might use.
+
+              ```jsx
+                import React from &apos;react&apos;&#10;                import {&#10;                  Provider,&#10;                  createStoreHook,&#10;                  createDispatchHook,&#10;                  createSelectorHook&#10;                } from &apos;react-redux&apos;&#10;&#10;                const MyContext = React.createContext(null)&#10;&#10;                // Export your custom hooks if you wish to use them in other files.&#10;                export const useStore = createStoreHook(MyContext)&#10;                export const useDispatch = createDispatchHook(MyContext)&#10;                export const useSelector = createSelectorHook(MyContext)&#10;&#10;                const myStore = createStore(rootReducer)&#10;&#10;                export function MyProvider({ children }) {&#10;                  return (&#10;                    &lt;Provider context={MyContext} store={myStore}&gt;&#10;                      {children}&#10;                    &lt;/Provider&gt;&#10;                  )&#10;                }
+              ```
+
+              ## [State slice](https://react-redux.js.org/tutorials/quick-start#create-a-redux-state-slice)
+              - In e.g. src/features/counter/counterSlice.js
+              - Creating a slice requires
+                - a string name to identify the slice
+                - an initial state value
+                - one or more reducer functions to define how the state can be updated. 
+              - We can export the generated Redux action creators and the reducer function for the whole slice.
+
+              ## [State slice example](https://react-redux.js.org/tutorials/quick-start#create-a-redux-state-slice)-->
+
+  <script src="dist/reveal.js"></script>
+  <script src="plugin/zoom/zoom.js"></script>
+  <script src="plugin/notes/notes.js"></script>
+  <script src="plugin/search/search.js"></script>
+  <script src="plugin/markdown/markdown.js"></script>
+  <script src="plugin/highlight/highlight.js"></script>
+  <script>
+
+    // Also available as an ES module, see:
+    // https://revealjs.com/initialization/
+    Reveal.initialize({
+      controls: true,
+      progress: true,
+      center: true,
+      hash: true,
+
+      // Learn about plugins: https://revealjs.com/plugins/
+      plugins: [RevealZoom, RevealNotes, RevealSearch, RevealMarkdown, RevealHighlight]
+    });
+
+  </script>
+
+</body>
+
+</html>
