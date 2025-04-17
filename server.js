@@ -11,8 +11,8 @@ const taskType = "task";
 
 const taskPageFilePath = "./task.html";
 
-const task1FilePath = "./"+taskType+"/solutions/example.js";
-const tests1FilePath = "./"+taskType+"/tests/example-tests.js";
+const task1FilePath = "./" + taskType + "/solutions/example_1.js";
+const tests1FilePath = "./" + taskType + "/tests/example-tests.js";
 
 
 // maps file extention to MIME types
@@ -49,17 +49,17 @@ http.createServer(function (req, res) {
   const sanitizePath = path.normalize(parsedUrl.pathname).replace(/^(\.\.[\/\\])+/, '');
   let pathname = path.join(__dirname, sanitizePath);
 
-  
 
-    if ((req.url === "/example" || req.url === "/example_tests") && req.method === "GET") {
+
+  if ((req.url === "/example" || req.url === "/example_tests") && req.method === "GET") {
 
 
     let taskFilePath = "";
     let testsFilePath = "";
-    if (req.url === "/example"){
+    if (req.url === "/example") {
       taskFilePath = task1FilePath;
     }
-    else if (req.url === "/example_tests"){
+    else if (req.url === "/example_tests") {
       taskFilePath = task1FilePath;
       testsFilePath = tests1FilePath;
     }
@@ -67,56 +67,56 @@ http.createServer(function (req, res) {
 
 
     fs.readFile(taskPageFilePath, "utf8", (err, htmlContent) => {
+      if (err) {
+        res.writeHead(500, { "Content-Type": "text/plain" });
+        res.end("Error loading task page");
+        return;
+      }
+      fs.readFile(taskFilePath, "utf8", (err, studentCode) => {
         if (err) {
-            res.writeHead(500, { "Content-Type": "text/plain" });
-            res.end("Error loading task page");
-            return;
+          res.writeHead(500, { "Content-Type": "text/plain" });
+          res.end("Error loading task file");
+          return;
         }
-        fs.readFile(taskFilePath, "utf8", (err, studentCode) => {
+        if (testsFilePath != "") {
+          fs.readFile(testsFilePath, "utf8", (err, tests) => {
             if (err) {
-                res.writeHead(500, { "Content-Type": "text/plain" });
-                res.end("Error loading task file");
-                return;
+              res.writeHead(500, { "Content-Type": "text/plain" });
+              res.end("Error loading tests");
+              return;
             }
-            if(testsFilePath!=""){
-              fs.readFile(testsFilePath, "utf8", (err, tests) => {
-                if (err) {
-                    res.writeHead(500, { "Content-Type": "text/plain" });
-                    res.end("Error loading tests");
-                    return;
-                }
-                const modifiedHtml = htmlContent.replace(
-                    '// --- STUDENT CODE WILL BE INSERTED HERE ---',
-                    studentCode
-                );
-
-
-                const finalHtml = modifiedHtml.replace(
-                  '// --- TESTS WILL BE INSERTED HERE ---',
-                  tests
-                );
-                res.writeHead(200, { "Content-Type": "text/html" });
-                res.end(finalHtml);
-            });
-          }
-          else{
             const modifiedHtml = htmlContent.replace(
               '// --- STUDENT CODE WILL BE INSERTED HERE ---',
               studentCode
             );
 
-            res.writeHead(200, { "Content-Type": "text/html" });
-            res.end(modifiedHtml);
-          }
 
-        });
+            const finalHtml = modifiedHtml.replace(
+              '// --- TESTS WILL BE INSERTED HERE ---',
+              tests
+            );
+            res.writeHead(200, { "Content-Type": "text/html" });
+            res.end(finalHtml);
+          });
+        }
+        else {
+          const modifiedHtml = htmlContent.replace(
+            '// --- STUDENT CODE WILL BE INSERTED HERE ---',
+            studentCode
+          );
+
+          res.writeHead(200, { "Content-Type": "text/html" });
+          res.end(modifiedHtml);
+        }
+
+      });
     });
-  } 
-  
+  }
+
   else {
 
     fs.exists(pathname, function (exist) {
-      if(!exist) {
+      if (!exist) {
         // if the file is not found, return 404
         res.statusCode = 404;
         res.end(`File ${pathname} not found!`);
@@ -129,15 +129,15 @@ http.createServer(function (req, res) {
       }
 
       // read file from file system
-      fs.readFile(pathname, function(err, data){
-        if(err){
+      fs.readFile(pathname, function (err, data) {
+        if (err) {
           res.statusCode = 500;
           res.end(`Error getting the file: ${err}.`);
         } else {
           // based on the URL path, extract the file extention. e.g. .js, .doc, ...
           const ext = path.parse(pathname).ext;
           // if the file is found, set Content-type and send data
-          res.setHeader('Content-type', mimeType[ext] || 'text/plain' );
+          res.setHeader('Content-type', mimeType[ext] || 'text/plain');
           res.setHeader('Access-Control-Allow-Origin', '*');
           res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE');
           res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
