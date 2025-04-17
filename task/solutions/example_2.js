@@ -153,6 +153,7 @@ const FormComponent = () => {
         <form>
             <label htmlFor="title"> Title:
                 <input
+                    id="new-book-title"
                     type="text"
                     placeholder="Enter book name"
                     name="title"
@@ -163,6 +164,7 @@ const FormComponent = () => {
             </label>
             <label htmlFor="author"> Author:
                 <input
+                    id="new-book-author"
                     type="text"
                     placeholder="Enter author name"
                     name="author"
@@ -173,6 +175,7 @@ const FormComponent = () => {
             </label>
             <label htmlFor="price"> Price:
                 <input
+                    id="new-book-price"
                     type="number"
                     placeholder="Enter Price"
                     name="price"
@@ -183,6 +186,7 @@ const FormComponent = () => {
             </label>
             <label htmlFor="stock"> Stock:
                 <input
+                    id="new-book-stock"
                     type="number"
                     placeholder="Enter Stock"
                     name="stock"
