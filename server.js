@@ -11,7 +11,7 @@ const taskType = "task";
 
 const taskPageFilePath = "./task.html";
 
-const task1FilePath = "./" + taskType + "/solutions/example_1.js";
+const task1FilePath = "./" + taskType + "/solutions/example_2.js";
 const tests1FilePath = "./" + taskType + "/tests/example-tests.js";
 
 

@@ -1,6 +1,13 @@
 const ADD_BOOK = "ADD_BOOK";
 const DELETE_BOOK = "DELETE_BOOK";
 const SELL_BOOK = "SELL_BOOK";
+const EDIT_BOOK = "EDIT_BOOK";
+
+const editBookAction = (updatedBook) => ({
+    type: EDIT_BOOK,
+    payload: updatedBook
+});
+
 
 const addBookAction = (book) => ({
     type: ADD_BOOK,
@@ -34,6 +41,13 @@ const reducer = (state = initialState, action) => {
             }
         case DELETE_BOOK:
             return { ...state, items: state.items.filter((book) => book.id !== action.payload) }
+        case EDIT_BOOK:
+            return {
+                ...state,
+                items: state.items.map((book) =>
+                    book.id === action.payload.id ? { ...book, ...action.payload } : book
+                )
+            };
         default:
             return state;
     }
@@ -45,16 +59,61 @@ const store = legacy_createStore(reducer, applyMiddleware(thunk));
 
 const TableComponent = ({ book }) => {
     const dispatch = useDispatch();
+    const [isEditing, setIsEditing] = useState(false);
+    const [editedBook, setEditedBook] = useState({ ...book });
+    const handleChange = (e) => {
+        const { name, value } = e.target;
+        setEditedBook({ ...editedBook, [name]: value });
+    };
+
+    const handleSave = () => {
+        dispatch(editBookAction({ ...editedBook, price: Number(editedBook.price), stock: Number(editedBook.stock) }));
+        setIsEditing(false);
+    };
     return (
         <tr>
             <td>{book.id}</td>
-            <td>{book.title}</td>
-            <td>{book.author}</td>
-            <td>{book.price}</td>
-            <td>{book.stock}</td>
             <td>
-                <button onClick={() => dispatch(sellBookAction(book.id))} disabled={book.stock <= 0}>Sell</button>
-                <button onClick={() => dispatch(deleteBookAction(book.id))}>Delete</button>
+                {isEditing ? (
+                    <input name="title" value={editedBook.title} onChange={handleChange} />
+                ) : (
+                    book.title
+                )}
+            </td>
+            <td>
+                {isEditing ? (
+                    <input name="author" value={editedBook.author} onChange={handleChange} />
+                ) : (
+                    book.author
+                )}
+            </td>
+            <td>
+                {isEditing ? (
+                    <input name="price" type="number" value={editedBook.price} onChange={handleChange} />
+                ) : (
+                    book.price
+                )}
+            </td>
+            <td>
+                {isEditing ? (
+                    <input name="stock" type="number" value={editedBook.stock} onChange={handleChange} />
+                ) : (
+                    book.stock
+                )}
+            </td>
+            <td>
+                {isEditing ? (
+                    <>
+                        <button onClick={handleSave}>Save</button>
+                        <button onClick={() => setIsEditing(false)}>Cancel</button>
+                    </>
+                ) : (
+                    <>
+                        <button onClick={() => dispatch(sellBookAction(book.id))} disabled={book.stock <= 0}>Sell</button>
+                        <button onClick={() => dispatch(deleteBookAction(book.id))}>Delete</button>
+                        <button onClick={() => setIsEditing(true)}>Edit</button>
+                    </>
+                )}
             </td>
         </tr>
     )
